@@ -34,7 +34,7 @@ bool NumNode::calculateNodeValue()
 		break;
 	default:
 		std::cout << "Invalid Comparator!" << std::endl;
-		return false;
+		exit(1);
 	}
 
 	return nodeValue;
@@ -59,8 +59,18 @@ double NumNode::convertNumString(std::string numString)
 	double d = -1;
 
 	try { d = std::stod(numString); }
-	catch (std::invalid_argument&) { std::cout << numString << " is not a number!" << std::endl; }
-	catch (std::out_of_range&) { std::cout << numString << " is out of Range!" << std::endl; }
+
+	catch (std::invalid_argument&) 
+	{ 
+		std::cout << numString << " is not a number!" << std::endl; 
+		exit(1);
+	}
+	
+	catch (std::out_of_range&) 
+	{ 
+		std::cout << numString << " is out of Range!" << std::endl; 
+		exit(1);
+	}
 
 	return d;
 }

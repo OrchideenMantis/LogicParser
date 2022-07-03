@@ -25,8 +25,8 @@ bool LogTree::calculateTreeValue()
 {
 	if (rootNode == nullptr) 
 	{ 
-		std::cout << "No Root found! Set new Root." << std::endl;
-		return 0; 
+		std::cout << "Root is rotten. Set new Root!" << std::endl;
+		exit(1);
 	}
 
 	return rootNode->calculateNodeValue();

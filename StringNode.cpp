@@ -22,7 +22,7 @@ bool StringNode::calculateNodeValue()
 		break;
 	default:
 		std::cout << "Invalid Comparator!" << std::endl;
-		return false;
+		exit(1);
 	}
 
 	return nodeValue;

@@ -40,6 +40,7 @@ bool OperatorNode::calculateNodeValue()
 		break;
 	default:
 		std::cout << "Invalid Operator!" << std::endl;
+		exit(1);
 	}
 
     return nodeValue;
@@ -58,7 +59,7 @@ std::pair<int, std::string> OperatorNode::determineNextParentOperator(std::strin
 	int bLayerOperator = 0;
 
 	std::string tempString;
-	std::pair<int, std::string> parentOperator = { -1, "" };
+	std::pair<int, std::string> parentOperator;
 
 	for (char c : logString)
 	{
@@ -123,6 +124,12 @@ std::pair<int, std::string> OperatorNode::determineNextParentOperator(std::strin
 		}
 
 		tempString += c;
+	}
+
+	if (parentOperator.second.empty()) 
+	{ 
+		std::cout << logString << " has no valid operator!" << std::endl;
+		exit(1); 
 	}
 
 	return parentOperator;
@@ -220,10 +227,11 @@ std::string OperatorNode::cleanChildString(std::string childString)
 
     for (char c : childString)
     {
-        if (c == ' ' && childString.empty()) { continue; }
+		if (c == ' ' && childString.empty()) { continue; }
 
-        if (c == '(') { bracketCounterOpen++; }
-        if (c == ')') { bracketCounterClosed++; }
+		if (c == '(') { bracketCounterOpen++; }
+        
+		if (c == ')') { bracketCounterClosed++; }
 
         childStringClean += c;
     }
@@ -245,33 +253,33 @@ void OperatorNode::initializeChildren(std::string firstChildString, std::string 
 NodeInterface* OperatorNode::createChild(std::string childString)
 {
     std::pair<int, std::string> parentOperator = OperatorNode::determineNextParentOperator(childString);
-    std::pair<std::string, std::string> childStrings = OperatorNode::determineChildStrings(childString, parentOperator.first);
+    std::pair<std::string, std::string> grandChildren = OperatorNode::determineChildStrings(childString, parentOperator.first);
 
     LogComparator logComparator = OperatorNode::convertStringToComparator(parentOperator.second);
     LogOperator logOperator = OperatorNode::convertStringToOperator(parentOperator.second);
-
-    if (logOperator != LogOperator::UNDEFINED) 
+	
+	if (logOperator != LogOperator::UNDEFINED) 
     {
-        return new OperatorNode(logOperator, childStrings.first, childStrings.second);
+        return new OperatorNode(logOperator, grandChildren.first, grandChildren.second);
     }
 
-    if (logComparator != LogComparator::UNDEFINED)
+	if (logComparator != LogComparator::UNDEFINED)
     {
 		
-		if ((childStrings.first.find('"') == std::string::npos) && (childStrings.second.find('"') == std::string::npos))
+		if ((grandChildren.first.find('"') == std::string::npos) && (grandChildren.second.find('"') == std::string::npos))
 		{
-			return new NumNode(logComparator, childStrings.first, childStrings.second);
+			return new NumNode(logComparator, grandChildren.first, grandChildren.second);
 		}
         
-        if ((childStrings.first.find('"') != std::string::npos) && (childStrings.second.find('"') != std::string::npos))
-        {
-			return new StringNode(logComparator, childStrings.first, childStrings.second);
-        }
+		if ((grandChildren.first.find('"') != std::string::npos) && (grandChildren.second.find('"') != std::string::npos))
+		{
+			return new StringNode(logComparator, grandChildren.first, grandChildren.second);
+		}
 
 		std::cout << "Cannot compare String to Numerical!" << std::endl;
-		return nullptr;
+		exit(1);
     }
 
 	std::cout << "Child String: '" << childString << "' has no valid operator." << std::endl;
-    return nullptr;
+	exit(1);
 }
