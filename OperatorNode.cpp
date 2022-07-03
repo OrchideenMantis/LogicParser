@@ -82,7 +82,7 @@ std::pair<int, std::string> OperatorNode::determineNextParentOperator(std::strin
 				parentOperator.first = bIndex + 1;
 				parentOperator.second = tempString;
 			}
-
+			
 			bIndex = index;
 			tempString.clear();
 
@@ -220,13 +220,13 @@ LogOperator OperatorNode::convertStringToOperator(std::string conjunctionString)
 
 std::string OperatorNode::cleanChildString(std::string childString)
 {
-    std::string childStringClean;
+	std::string childStringClean;
 
 	int bracketCounterOpen = 0;
-    int bracketCounterClosed = 0;
+	int bracketCounterClosed = 0;
 
 	for (char c : childString)
-    {
+	{
 		if (c == ' ' && childString.empty()) { continue; }
 
 		if (c == '(') { bracketCounterOpen++; }
@@ -234,7 +234,7 @@ std::string OperatorNode::cleanChildString(std::string childString)
 		if (c == ')') { bracketCounterClosed++; }
 
 		childStringClean += c;
-    }
+	}
 
 	if (bracketCounterOpen > bracketCounterClosed) { childStringClean.erase(0, 1); }
 	if (bracketCounterClosed > bracketCounterOpen) { childStringClean.erase(childStringClean.length() - 1, 1); }
@@ -252,11 +252,11 @@ void OperatorNode::initializeChildren(std::string firstChildString, std::string 
 
 NodeInterface* OperatorNode::createChild(std::string childString)
 {
-    std::pair<int, std::string> parentOperator = OperatorNode::determineNextParentOperator(childString);
-    std::pair<std::string, std::string> grandChildren = OperatorNode::determineChildStrings(childString, parentOperator.first);
+	std::pair<int, std::string> parentOperator = OperatorNode::determineNextParentOperator(childString);
+	std::pair<std::string, std::string> grandChildren = OperatorNode::determineChildStrings(childString, parentOperator.first);
 
-    LogComparator logComparator = OperatorNode::convertStringToComparator(parentOperator.second);
-    LogOperator logOperator = OperatorNode::convertStringToOperator(parentOperator.second);
+	LogComparator logComparator = OperatorNode::convertStringToComparator(parentOperator.second);
+	LogOperator logOperator = OperatorNode::convertStringToOperator(parentOperator.second);
 	
 	if (logOperator != LogOperator::UNDEFINED) 
 	{
