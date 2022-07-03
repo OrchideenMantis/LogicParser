@@ -222,10 +222,10 @@ std::string OperatorNode::cleanChildString(std::string childString)
 {
     std::string childStringClean;
 
-    int bracketCounterOpen = 0;
+	int bracketCounterOpen = 0;
     int bracketCounterClosed = 0;
 
-    for (char c : childString)
+	for (char c : childString)
     {
 		if (c == ' ' && childString.empty()) { continue; }
 
@@ -233,13 +233,13 @@ std::string OperatorNode::cleanChildString(std::string childString)
         
 		if (c == ')') { bracketCounterClosed++; }
 
-        childStringClean += c;
+		childStringClean += c;
     }
 
-    if (bracketCounterOpen > bracketCounterClosed) { childStringClean.erase(0, 1); }
-    if (bracketCounterClosed > bracketCounterOpen) { childStringClean.erase(childStringClean.length() - 1, 1); }
+	if (bracketCounterOpen > bracketCounterClosed) { childStringClean.erase(0, 1); }
+	if (bracketCounterClosed > bracketCounterOpen) { childStringClean.erase(childStringClean.length() - 1, 1); }
 
-    return childStringClean;
+	return childStringClean;
 }
 
 //=================================================================================================
@@ -259,12 +259,12 @@ NodeInterface* OperatorNode::createChild(std::string childString)
     LogOperator logOperator = OperatorNode::convertStringToOperator(parentOperator.second);
 	
 	if (logOperator != LogOperator::UNDEFINED) 
-    {
-        return new OperatorNode(logOperator, grandChildren.first, grandChildren.second);
-    }
+	{
+		return new OperatorNode(logOperator, grandChildren.first, grandChildren.second);
+	}
 
 	if (logComparator != LogComparator::UNDEFINED)
-    {
+	{
 		
 		if ((grandChildren.first.find('"') == std::string::npos) && (grandChildren.second.find('"') == std::string::npos))
 		{
@@ -278,7 +278,7 @@ NodeInterface* OperatorNode::createChild(std::string childString)
 
 		std::cout << "Cannot compare String to Numerical!" << std::endl;
 		exit(1);
-    }
+	}
 
 	std::cout << "Child String: '" << childString << "' has no valid operator." << std::endl;
 	exit(1);
