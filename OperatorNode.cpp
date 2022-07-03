@@ -255,9 +255,9 @@ NodeInterface* OperatorNode::createChild(std::string childString)
         return new OperatorNode(logOperator, childStrings.first, childStrings.second);
     }
 
-    else if (logComparator != LogComparator::UNDEFINED)
+    if (logComparator != LogComparator::UNDEFINED)
     {
-
+		
 		if ((childStrings.first.find('"') == std::string::npos) && (childStrings.second.find('"') == std::string::npos))
 		{
 			return new NumNode(logComparator, childStrings.first, childStrings.second);
@@ -269,12 +269,9 @@ NodeInterface* OperatorNode::createChild(std::string childString)
         }
 
 		std::cout << "Cannot compare String to Numerical!" << std::endl;
+		return nullptr;
     }
 
-    else 
-    {
-        std::cout << "Child String: '" << childString << "' has no valid operator." << std::endl;
-    }
-
+	std::cout << "Child String: '" << childString << "' has no valid operator." << std::endl;
     return nullptr;
 }
