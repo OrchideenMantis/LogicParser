@@ -209,7 +209,6 @@ LogOperator OperatorNode::convertStringToOperator(std::string conjunctionString)
 	return logConjunction;
 }
 
-
 //=================================================================================================
 
 std::string OperatorNode::cleanChildString(std::string childString)
