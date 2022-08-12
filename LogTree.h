@@ -11,11 +11,13 @@ public:
 	~LogTree();
 
 public:
-	void setRoot(std::string logString);
 	bool calculateTreeValue();
 
-public:
-	virtual void clean();
+	void setRoot(std::string logString);
+	void cleanRoots();
+
+private:
+	std::string verifyLogString(std::string logString);
 
 protected:
 	NodeInterface* rootNode;

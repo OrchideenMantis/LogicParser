@@ -34,9 +34,25 @@ bool LogTree::calculateTreeValue()
 
 //=================================================================================================
 
-void LogTree::clean()
+void LogTree::cleanRoots()
 {
 	delete rootNode;
 
 	rootNode = nullptr;
+}
+
+std::string LogTree::verifyLogString(std::string logString)
+{
+	std::string logStringVerified;
+
+	bool ignore = false;
+
+	for (int i = 0; i < logString.length(); i++)
+	{
+		if (logString.at(i) == ' ' && logStringVerified.empty()) { continue; }
+		if (logString.at(i) == ' ' && logString.at(i - 1) == ' ') { continue; }
+
+	}
+
+	return std::string();
 }
